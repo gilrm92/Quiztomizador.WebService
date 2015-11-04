@@ -1,0 +1,12 @@
+c:\users\gilberto\documents\visual studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\bin\Quiztomizador.WebService.dll.config
+c:\users\gilberto\documents\visual studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\bin\Quiztomizador.WebService.dll
+c:\users\gilberto\documents\visual studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\bin\Quiztomizador.WebService.pdb
+c:\users\gilberto\documents\visual studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\obj\Debug\Quiztomizador.WebService.csprojResolveAssemblyReference.cache
+c:\users\gilberto\documents\visual studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\obj\Debug\Quiztomizador.WebService.dll
+c:\users\gilberto\documents\visual studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\obj\Debug\Quiztomizador.WebService.pdb
+C:\Users\Gilberto\Documents\Visual Studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\bin\EntityFramework.dll
+C:\Users\Gilberto\Documents\Visual Studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\bin\EntityFramework.SqlServer.dll
+C:\Users\Gilberto\Documents\Visual Studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\bin\Ninject.dll
+C:\Users\Gilberto\Documents\Visual Studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\bin\EntityFramework.xml
+C:\Users\Gilberto\Documents\Visual Studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\bin\EntityFramework.SqlServer.xml
+C:\Users\Gilberto\Documents\Visual Studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\bin\Ninject.xml
