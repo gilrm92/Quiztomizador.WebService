@@ -1,4 +1,8 @@
-﻿using Quiztomizador.WebService.Entidades;
+﻿using Quiztomizador.WebService.ContextConfiguration;
+using Quiztomizador.WebService.Entidades;
+using Quiztomizador.WebService.Model.IRepositorios;
+using Quiztomizador.WebService.Model.Servicos;
+using Quiztomizador.WebService.NinjectConfiguration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,18 +20,25 @@ namespace Quiztomizador.WebService.Services
     [System.Web.Script.Services.ScriptService]
     public class Usuarios : System.Web.Services.WebService
     {
-
+     
         [WebMethod]
-        public string CriarUsuario()
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public bool Login(string email, string senha)
         {
-            return "Usuario:";
-        }
-
-        [WebMethod]
-        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
-        public string Logar()
-        {
-            return "Usuario:";
+            using (var context = new Context()) 
+            {
+                var usuario = context.Usuarios.Where(u => u.Email.Equals(email) && u.Senha.Equals(senha)).FirstOrDefault();
+                if (usuario != null)
+                {
+                    //var gerenciadorDeSessao = new GerenciadorDeSessao(context);
+                    //gerenciadorDeSessao.CriarSessao(usuario);
+                    return true;
+                }
+                else 
+                {
+                    return false;
+                }
+            };
         }
 
         

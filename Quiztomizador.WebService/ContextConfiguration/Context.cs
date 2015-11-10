@@ -21,7 +21,7 @@ namespace Quiztomizador.WebService.ContextConfiguration
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-
+            modelBuilder.Entity<Usuario>().HasKey(u => u.IdUsuario);
         }
     }
 }

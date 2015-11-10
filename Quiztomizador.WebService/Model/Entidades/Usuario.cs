@@ -11,9 +11,9 @@ namespace Quiztomizador.WebService.Entidades
         public string Nome { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }
-        public IList<Categoria> Categorias { get; set; }
-        public IList<Questionario> Questionarios { get; set; }
-        public IList<Grupo> Grupos { get; set; }
+        //public IList<Categoria> Categorias { get; set; }
+        //public IList<Questionario> Questionarios { get; set; }
+        //public IList<Grupo> Grupos { get; set; }
         
     }
 }

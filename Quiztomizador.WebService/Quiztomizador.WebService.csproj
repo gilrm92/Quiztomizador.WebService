@@ -66,6 +66,14 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\Ninject.dll" />
+    <Content Include="bin\Ninject.xml" />
+    <Content Include="bin\Quiztomizador.WebService.dll" />
+    <Content Include="bin\Quiztomizador.WebService.pdb" />
     <Content Include="Services\Usuarios.asmx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -81,6 +89,7 @@
     <Compile Include="Model\Entidades\Usuario.cs" />
     <Compile Include="Model\IRepositorios\IRepositorioBase.cs" />
     <Compile Include="Model\IRepositorios\IRepositorioUsuario.cs" />
+    <Compile Include="Model\Servicos\GerenciadorDeSessao.cs" />
     <Compile Include="NinjectConfiguration\GetServiceHelper.cs" />
     <Compile Include="NinjectConfiguration\NinjectControllerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="bin\Quiztomizador.WebService.dll.config" />
     <None Include="Properties\PublishProfiles\Bla.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
