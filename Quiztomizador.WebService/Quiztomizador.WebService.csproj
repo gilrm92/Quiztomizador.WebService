@@ -75,11 +75,12 @@
     <Content Include="bin\Quiztomizador.WebService.dll" />
     <Content Include="bin\Quiztomizador.WebService.pdb" />
     <Content Include="Services\Usuarios.asmx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextConfiguration\Context.cs" />
-    <Compile Include="ContextConfiguration\GerenciadorDeContexto.cs" />
     <Compile Include="Model\Entidades\Alternativa.cs" />
     <Compile Include="Model\Entidades\Categoria.cs" />
     <Compile Include="Model\Entidades\Grupo.cs" />

@@ -1,6 +1,7 @@
 ﻿using Quiztomizador.WebService.Entidades;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
@@ -16,12 +17,15 @@ namespace Quiztomizador.WebService.ContextConfiguration
 
         }
 
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Usuario> DbUsuarios { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            modelBuilder.Entity<Usuario>().HasKey(u => u.IdUsuario);
+            
+            modelBuilder.Entity<Usuario>().Property(u => u.IdUsuario).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Usuario>().ToTable("Usuarios");
+            modelBuilder.Entity<Usuario>().HasKey(u => new { u.IdUsuario });
         }
     }
 }

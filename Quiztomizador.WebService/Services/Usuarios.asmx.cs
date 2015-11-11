@@ -23,23 +23,42 @@ namespace Quiztomizador.WebService.Services
      
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public bool Login(string email, string senha)
+        public bool Logar(string email, string senha)
         {
             using (var context = new Context()) 
             {
-                var usuario = context.Usuarios.Where(u => u.Email.Equals(email) && u.Senha.Equals(senha)).FirstOrDefault();
-                if (usuario != null)
+                var usuario = context.DbUsuarios.Where(u => u.Email.Equals(email) && u.Senha.Equals(senha)).FirstOrDefault();
+                return usuario != null;
+            };
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public int Criar(string nome, string email, string senha)
+        {
+            using (var context = new Context())
+            {
+                var usuario = context.DbUsuarios.Where(u => u.Email.Equals(email)).FirstOrDefault();
+                if (usuario == null)
                 {
-                    //var gerenciadorDeSessao = new GerenciadorDeSessao(context);
-                    //gerenciadorDeSessao.CriarSessao(usuario);
-                    return true;
+                    var usuarioNew = new Usuario
+                    {
+                        Email = email,
+                        Nome = nome,
+                        Senha = senha
+                    };
+                    context.Set<Usuario>().Add(usuarioNew);
+                    context.SaveChanges();
+
+                    return usuarioNew.IdUsuario;
                 }
                 else 
                 {
-                    return false;
+                    throw new Exception("Usuario já existe.");   
                 }
             };
         }
+
 
         
     }

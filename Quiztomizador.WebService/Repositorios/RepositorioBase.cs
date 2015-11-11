@@ -14,7 +14,6 @@ namespace Quiztomizador.WebService.Repositorios
 
         protected RepositorioBase()
         {
-            Context = GerenciadorDeContexto.GetInstance().GetContext();
         } 
 
         public T Salvar(T entity)
