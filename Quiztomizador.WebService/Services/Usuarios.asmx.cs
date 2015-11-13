@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.Script.Services;
 using System.Web.Services;
 
@@ -20,7 +21,24 @@ namespace Quiztomizador.WebService.Services
     [System.Web.Script.Services.ScriptService]
     public class Usuarios : System.Web.Services.WebService
     {
-     
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object Retorna(string idUsuario) 
+        {
+            using (var context = new Context())
+            {
+                var idUsuarioConvertido = int.Parse(idUsuario);
+                var usuario = context.DbUsuarios.Where(u => u.IdUsuario.Equals(idUsuarioConvertido)).FirstOrDefault();
+                var serializer = new JavaScriptSerializer();
+
+                if(usuario != null)
+                    return serializer.Serialize(usuario);
+                else
+                    throw new Exception("Usuario não existe.");
+            }
+        }
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public bool Logar(string email, string senha)
@@ -58,8 +76,5 @@ namespace Quiztomizador.WebService.Services
                 }
             };
         }
-
-
-        
     }
 }

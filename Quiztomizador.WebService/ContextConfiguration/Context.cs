@@ -18,6 +18,7 @@ namespace Quiztomizador.WebService.ContextConfiguration
         }
 
         public DbSet<Usuario> DbUsuarios { get; set; }
+        public DbSet<Categoria> DbCategorias { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -26,6 +27,14 @@ namespace Quiztomizador.WebService.ContextConfiguration
             modelBuilder.Entity<Usuario>().Property(u => u.IdUsuario).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Usuario>().ToTable("Usuarios");
             modelBuilder.Entity<Usuario>().HasKey(u => new { u.IdUsuario });
+            modelBuilder.Entity<Usuario>()
+                        .HasMany<Categoria>(s => s.Categorias)
+                        .WithRequired(s => s.Usuario)
+                        .HasForeignKey(s => s.IdUsuario);
+
+            modelBuilder.Entity<Categoria>().HasKey(c => c.IdCategoria);
+            modelBuilder.Entity<Categoria>().Property(c => c.IdCategoria).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
         }
     }
 }
