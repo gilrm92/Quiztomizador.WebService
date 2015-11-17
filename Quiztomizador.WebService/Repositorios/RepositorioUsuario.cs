@@ -1,4 +1,4 @@
-﻿using Quiztomizador.WebService.Entidades;
+﻿using Quiztomizador.WebService.Model.Entidades;
 using Quiztomizador.WebService.Model.IRepositorios;
 using System;
 using System.Collections.Generic;

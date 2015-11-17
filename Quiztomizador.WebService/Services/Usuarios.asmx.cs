@@ -1,5 +1,5 @@
 ﻿using Quiztomizador.WebService.ContextConfiguration;
-using Quiztomizador.WebService.Entidades;
+using Quiztomizador.WebService.Model.Entidades;
 using Quiztomizador.WebService.Model.IRepositorios;
 using Quiztomizador.WebService.Model.Servicos;
 using Quiztomizador.WebService.NinjectConfiguration;

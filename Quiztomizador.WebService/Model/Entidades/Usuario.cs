@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace Quiztomizador.WebService.Entidades
+namespace Quiztomizador.WebService.Model.Entidades
 {
     [Table("Usuarios")]
     public class Usuario
@@ -14,5 +14,6 @@ namespace Quiztomizador.WebService.Entidades
         public string Email { get; set; }
         public string Senha { get; set; }
         public IList<Categoria> Categorias { get; set; }
+        //public IList<Questionario> Questionarios { get; set; }
     }
 }

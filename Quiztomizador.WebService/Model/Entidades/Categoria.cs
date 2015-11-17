@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
-namespace Quiztomizador.WebService.Entidades
+namespace Quiztomizador.WebService.Model.Entidades
 {
     public class Categoria
     {

@@ -75,6 +75,7 @@
     <Content Include="bin\Quiztomizador.WebService.dll" />
     <Content Include="bin\Quiztomizador.WebService.pdb" />
     <Content Include="Services\Categorias.asmx" />
+    <Content Include="Services\Questionarios.asmx" />
     <Content Include="Services\Usuarios.asmx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -99,6 +100,10 @@
     <Compile Include="Repositorios\RepositorioUsuario.cs" />
     <Compile Include="Services\Categorias.asmx.cs">
       <DependentUpon>Categorias.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Services\Questionarios.asmx.cs">
+      <DependentUpon>Questionarios.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\Usuarios.asmx.cs">

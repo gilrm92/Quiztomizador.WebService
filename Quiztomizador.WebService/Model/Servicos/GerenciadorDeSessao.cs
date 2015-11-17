@@ -1,5 +1,5 @@
 ﻿using Quiztomizador.WebService.ContextConfiguration;
-using Quiztomizador.WebService.Entidades;
+using Quiztomizador.WebService.Model.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
