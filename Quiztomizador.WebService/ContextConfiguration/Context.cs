@@ -20,6 +20,8 @@ namespace Quiztomizador.WebService.ContextConfiguration
         public DbSet<Usuario> DbUsuarios { get; set; }
         public DbSet<Categoria> DbCategorias { get; set; }
         public DbSet<Questionario> DbQuestionarios { get; set; }
+        public DbSet<Questao> DbQuestoes { get; set; }
+        public DbSet<Alternativa> DbAlternativas { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -34,12 +36,19 @@ namespace Quiztomizador.WebService.ContextConfiguration
                         .HasForeignKey(s => s.IdUsuario);
 
             modelBuilder.Entity<Categoria>().HasKey(c => c.IdCategoria);
-                modelBuilder.Entity<Categoria>().Property(c => c.IdCategoria).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Categoria>().Property(c => c.IdCategoria).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             modelBuilder.Entity<Questionario>().HasKey(q => q.IdQuestionario);
             modelBuilder.Entity<Questionario>().Property(q => q.IdQuestionario).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Questionario>().HasRequired(q => q.Categoria).WithMany().HasForeignKey(c => c.IdCategoria);
             modelBuilder.Entity<Questionario>().HasRequired(q => q.UsuarioCriador).WithMany().HasForeignKey(c => c.IdUsuarioCriador);
+            modelBuilder.Entity<Questionario>().HasMany<Questao>(q => q.Questoes).WithRequired(q => q.Questionario);
+
+            modelBuilder.Entity<Questao>().HasKey(q => q.IdQuestao);
+            modelBuilder.Entity<Questao>().Property(q => q.IdQuestao).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            modelBuilder.Entity<Alternativa>().HasKey(q => q.IdAlternativa);
+            modelBuilder.Entity<Alternativa>().Property(q => q.IdAlternativa).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
         }
     }
 }
