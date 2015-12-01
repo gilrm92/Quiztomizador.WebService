@@ -7,6 +7,8 @@ namespace Quiztomizador.WebService.Model.Entidades
 {
     public enum TipoQuestao
     {
-        MultiplaEscolha = 0
+        MultiplaEscolha = 0,
+        VerdadeiroFalso = 1
+
     }
 }

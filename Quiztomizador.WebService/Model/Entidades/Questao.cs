@@ -9,9 +9,10 @@ namespace Quiztomizador.WebService.Model.Entidades
     {
         public int IdQuestao { get; set; }
         public string Titulo { get; set; }
+        public int IdQuestionario { get; set; }
         public Questionario Questionario { get; set; }
-        //public TipoQuestao TipoQuestao { get; set; }
-        //public IList<Alternativa> Alternativas { get; set; }
+        public TipoQuestao TipoQuestao { get; set; }
+        public IList<Alternativa> Alternativas { get; set; }
         
     }
 }

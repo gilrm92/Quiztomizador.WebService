@@ -76,6 +76,7 @@
     <Content Include="bin\Ninject.xml" />
     <Content Include="bin\Quiztomizador.WebService.dll" />
     <Content Include="bin\Quiztomizador.WebService.pdb" />
+    <Content Include="Services\Alternativas.asmx" />
     <Content Include="Services\Categorias.asmx" />
     <Content Include="Services\Questionarios.asmx" />
     <Content Include="Services\Questoes.asmx" />
@@ -101,6 +102,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositorios\RepositorioBase.cs" />
     <Compile Include="Repositorios\RepositorioUsuario.cs" />
+    <Compile Include="Services\Alternativas.asmx.cs">
+      <DependentUpon>Alternativas.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Services\Categorias.asmx.cs">
       <DependentUpon>Categorias.asmx</DependentUpon>
       <SubType>Component</SubType>

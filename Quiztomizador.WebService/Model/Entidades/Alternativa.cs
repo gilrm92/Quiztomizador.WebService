@@ -10,5 +10,8 @@ namespace Quiztomizador.WebService.Model.Entidades
         public int IdAlternativa { get; set; }
         public string Titulo { get; set; }
         public bool AlternativaCorreta { get; set; }
+        public int IdQuestao { get; set; }
+        public Questao Questao { get; set; }
+        public bool Excluido { get; set; }
     }
 }

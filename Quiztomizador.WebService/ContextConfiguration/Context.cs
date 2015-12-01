@@ -42,10 +42,11 @@ namespace Quiztomizador.WebService.ContextConfiguration
             modelBuilder.Entity<Questionario>().Property(q => q.IdQuestionario).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Questionario>().HasRequired(q => q.Categoria).WithMany().HasForeignKey(c => c.IdCategoria);
             modelBuilder.Entity<Questionario>().HasRequired(q => q.UsuarioCriador).WithMany().HasForeignKey(c => c.IdUsuarioCriador);
-            modelBuilder.Entity<Questionario>().HasMany<Questao>(q => q.Questoes).WithRequired(q => q.Questionario);
-
+            modelBuilder.Entity<Questionario>().HasMany(q => q.Questoes).WithRequired(q => q.Questionario).HasForeignKey(q => q.IdQuestionario);
+            
             modelBuilder.Entity<Questao>().HasKey(q => q.IdQuestao);
             modelBuilder.Entity<Questao>().Property(q => q.IdQuestao).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Questao>().HasMany(q => q.Alternativas).WithRequired(q => q.Questao).HasForeignKey(q => q.IdQuestao);
 
             modelBuilder.Entity<Alternativa>().HasKey(q => q.IdAlternativa);
             modelBuilder.Entity<Alternativa>().Property(q => q.IdAlternativa).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);

@@ -22,7 +22,7 @@ namespace Quiztomizador.WebService.Model.Entidades
         public Categoria Categoria { get; set; }
         public int IdUsuarioCriador { get; set; }
         public Usuario UsuarioCriador { get; set; }
-        public DateTime DataCriacao { get; set; }
+        public DateTime DataCriacao { get; set; }   
         public IList<Questao> Questoes { get; set; }
     }
 }
