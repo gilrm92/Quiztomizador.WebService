@@ -3,9 +3,11 @@ using Quiztomizador.WebService.Model.Entidades;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.Script.Services;
 using System.Web.Services;
 
 namespace Quiztomizador.WebService.Services
@@ -22,6 +24,7 @@ namespace Quiztomizador.WebService.Services
     {
 
         [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string Criar(string descricao, int idCategoria, int idUsuarioCadastrou)
         {
             using (var context = new Context())
@@ -53,7 +56,68 @@ namespace Quiztomizador.WebService.Services
                 var serializer = new JavaScriptSerializer();
                 return serializer.Serialize(retornoAnon);
             }
-            
         }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void Editar(int idQuestionario, string descricao, int idCategoria)
+        {
+            using (var context = new Context())
+            {
+                var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario)).FirstOrDefault();
+                var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(idCategoria)).FirstOrDefault();
+
+                questionario.Descricao = descricao;
+                questionario.Categoria = categoria;
+                questionario.IdCategoria = idCategoria;
+
+                context.Set<Questionario>().Attach(questionario);
+                context.Entry(questionario).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void Excluir(int idQuestionario)
+        {
+            using (var context = new Context())
+            {
+                var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario)).FirstOrDefault();
+
+                questionario.Excluido = true;
+
+                context.Set<Questionario>().Attach(questionario);
+                context.Entry(questionario).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object Retornar(int idQuestionario)
+        {
+            using (var context = new Context())
+            {
+                var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario) && !q.Excluido).FirstOrDefault();
+                var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(questionario.IdQuestionario)).FirstOrDefault();
+                var questoes = context.DbQuestoes.Where(q => q.IdQuestionario.Equals(questionario.IdQuestionario) && !q.Excluido).ToList();
+                
+                questionario.Questoes = questoes;
+                questionario.Categoria = categoria;
+
+                var anonObj = new
+                {
+                    uid = questionario.IdQuestionario,
+                    descricao = questionario.Descricao,
+                    categoria = new { uid = questionario.Categoria.IdCategoria, descricao = questionario.Categoria.Descricao },
+                    questoes = questionario.Questoes.Select(q => new { uid = q.IdQuestao, titulo = q.Titulo, tipoQuestao = q.TipoQuestao.ToString() })
+                };
+
+                var serializer = new JavaScriptSerializer();
+                return serializer.Serialize(anonObj);
+            }
+        }
+
     }
 }
