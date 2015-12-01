@@ -25,8 +25,9 @@ namespace Quiztomizador.WebService.Services
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public string Criar(string descricao, int idCategoria, int idUsuarioCadastrou)
+        public void Criar(string descricao, int idCategoria, int idUsuarioCadastrou)
         {
+            Context.Response.Clear();
             using (var context = new Context())
             {
                 var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(idCategoria)).FirstOrDefault();
@@ -46,15 +47,15 @@ namespace Quiztomizador.WebService.Services
 
                 var retornoAnon = new
                 {
-                    uId = questionario.IdQuestionario,
+                    uid = questionario.IdQuestionario,
                     descricao = questionario.Descricao,
-                    idUsuarioCadastrou = questionario.IdUsuarioCriador,
-                    dataCadastro = questionario.DataCriacao,
-                    idCategoria = questionario.IdCategoria
+                    categoria = questionario.IdCategoria,
+                    criador = questionario.IdUsuarioCriador
+                    
                 };
 
                 var serializer = new JavaScriptSerializer();
-                return serializer.Serialize(retornoAnon);
+                Context.Response.Write(serializer.Serialize(retornoAnon));
             }
         }
 
@@ -66,14 +67,20 @@ namespace Quiztomizador.WebService.Services
             {
                 var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario)).FirstOrDefault();
                 var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(idCategoria)).FirstOrDefault();
+                if (questionario != null)
+                {
+                    questionario.Descricao = descricao;
+                    questionario.Categoria = categoria;
+                    questionario.IdCategoria = idCategoria;
 
-                questionario.Descricao = descricao;
-                questionario.Categoria = categoria;
-                questionario.IdCategoria = idCategoria;
-
-                context.Set<Questionario>().Attach(questionario);
-                context.Entry(questionario).State = EntityState.Modified;
-                context.SaveChanges();
+                    context.Set<Questionario>().Attach(questionario);
+                    context.Entry(questionario).State = EntityState.Modified;
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Questionário não existe.");
+                }
             }
         }
 
@@ -85,18 +92,26 @@ namespace Quiztomizador.WebService.Services
             {
                 var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario)).FirstOrDefault();
 
-                questionario.Excluido = true;
-
-                context.Set<Questionario>().Attach(questionario);
-                context.Entry(questionario).State = EntityState.Modified;
-                context.SaveChanges();
+                if (questionario != null)
+                {
+                    questionario.Excluido = true;
+                    context.Set<Questionario>().Attach(questionario);
+                    context.Entry(questionario).State = EntityState.Modified;
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Questionário não existe.");
+                }
             }
         }
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public object Retornar(int idQuestionario)
+        public void Retornar(int idQuestionario)
         {
+
+            Context.Response.Clear();
             using (var context = new Context())
             {
                 var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario) && !q.Excluido).FirstOrDefault();
@@ -115,14 +130,15 @@ namespace Quiztomizador.WebService.Services
                 };
 
                 var serializer = new JavaScriptSerializer();
-                return serializer.Serialize(anonObj);
+                Context.Response.Write(serializer.Serialize(anonObj));
             }
         }
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public object RetornarPorUsuario(int idUsuario)
+        public void RetornarPorUsuario(int idUsuario)
         {
+            Context.Response.Clear();
             using (var context = new Context())
             {
                 var questionarios = context.DbQuestionarios.Where(q => q.UsuarioCriador.Equals(idUsuario) && !q.Excluido).ToList();
@@ -136,9 +152,7 @@ namespace Quiztomizador.WebService.Services
                     questionario.Categoria = categoria;
                 }
 
-                if (questionarios.Any())
-                {
-                    var anonObj = questionarios.Select(questionario => new
+                var anonObj = questionarios.Select(questionario => new
                                             {
                                                 uid = questionario.IdQuestionario,
                                                 descricao = questionario.Descricao,
@@ -155,11 +169,9 @@ namespace Quiztomizador.WebService.Services
                                                                                     })
                                             });
 
-                    var serializer = new JavaScriptSerializer();
-                    return serializer.Serialize(anonObj);
-                }
-                else
-                    return "{}";
+                var serializer = new JavaScriptSerializer();
+                Context.Response.Write(serializer.Serialize(anonObj));
+       
 
             }
         }
