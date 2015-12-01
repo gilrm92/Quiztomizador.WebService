@@ -23,13 +23,12 @@ namespace Quiztomizador.WebService.Services
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Retorna(string idUsuario) 
+        public void Retorna(int idUsuario) 
         {
             Context.Response.Clear();
             using (var context = new Context())
             {
-                var idUsuarioConvertido = int.Parse(idUsuario);
-                var usuario = context.DbUsuarios.Where(u => u.IdUsuario.Equals(idUsuarioConvertido)).FirstOrDefault();
+                var usuario = context.DbUsuarios.Where(u => u.IdUsuario.Equals(idUsuario)).FirstOrDefault();
                 var serializer = new JavaScriptSerializer();
 
                 if (usuario != null)
