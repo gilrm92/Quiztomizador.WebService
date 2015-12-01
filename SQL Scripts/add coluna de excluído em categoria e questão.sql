@@ -1,0 +1,6 @@
+
+ALTER TABLE Categorias
+ADD Excluido BIT NOT NULL DEFAULT(0)
+
+ALTER TABLE Questao
+ADD Excluido BIT NOT NULL DEFAULT(0)
