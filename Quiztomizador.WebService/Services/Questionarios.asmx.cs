@@ -119,5 +119,49 @@ namespace Quiztomizador.WebService.Services
             }
         }
 
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object RetornarPorUsuario(int idUsuario)
+        {
+            using (var context = new Context())
+            {
+                var questionarios = context.DbQuestionarios.Where(q => q.UsuarioCriador.Equals(idUsuario) && !q.Excluido).ToList();
+               
+                foreach (var questionario in questionarios) 
+                {
+                    var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(questionario.IdQuestionario)).FirstOrDefault();
+                    var questoes = context.DbQuestoes.Where(q => q.IdQuestionario.Equals(questionario.IdQuestionario) && !q.Excluido).ToList();
+
+                    questionario.Questoes = questoes;
+                    questionario.Categoria = categoria;
+                }
+
+                if (questionarios.Any())
+                {
+                    var anonObj = questionarios.Select(questionario => new
+                                            {
+                                                uid = questionario.IdQuestionario,
+                                                descricao = questionario.Descricao,
+                                                categoria = new
+                                                {
+                                                    uid = questionario.Categoria.IdCategoria,
+                                                    descricao = questionario.Categoria.Descricao
+                                                },
+                                                questoes = questionario.Questoes.Select(q => new
+                                                                                    {
+                                                                                        uid = q.IdQuestao,
+                                                                                        titulo = q.Titulo,
+                                                                                        tipoQuestao = q.TipoQuestao.ToString()
+                                                                                    })
+                                            });
+
+                    var serializer = new JavaScriptSerializer();
+                    return serializer.Serialize(anonObj);
+                }
+                else
+                    return "{}";
+
+            }
+        }
     }
 }
