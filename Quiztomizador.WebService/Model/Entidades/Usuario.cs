@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Quiztomizador.WebService.Model.Entidades
 {
-    [Table("Usuarios")]
+    [Table("Usuario")]
     public class Usuario
     {
         public int IdUsuario { get; set;}
