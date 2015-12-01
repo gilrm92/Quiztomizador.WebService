@@ -23,16 +23,26 @@ namespace Quiztomizador.WebService.Services
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public object Retorna(string idUsuario) 
+        public void Retorna(string idUsuario) 
         {
+            Context.Response.Clear();
             using (var context = new Context())
             {
                 var idUsuarioConvertido = int.Parse(idUsuario);
                 var usuario = context.DbUsuarios.Where(u => u.IdUsuario.Equals(idUsuarioConvertido)).FirstOrDefault();
                 var serializer = new JavaScriptSerializer();
 
-                if(usuario != null)
-                    return serializer.Serialize(usuario);
+                if (usuario != null)
+                {
+                    var retornoAnon = new
+                       {
+                           uid = usuario.IdUsuario,
+                           nome = usuario.Nome,
+                           email = usuario.Email,
+
+                       };
+                    Context.Response.Write(serializer.Serialize(retornoAnon));
+                }
                 else
                     throw new Exception("Usuario não existe.");
             }
@@ -40,19 +50,35 @@ namespace Quiztomizador.WebService.Services
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public bool Logar(string email, string senha)
+        public void Logar(string email, string senha)
         {
+            Context.Response.Clear();
             using (var context = new Context()) 
             {
                 var usuario = context.DbUsuarios.Where(u => u.Email.Equals(email) && u.Senha.Equals(senha)).FirstOrDefault();
-                return usuario != null;
+                var serializer = new JavaScriptSerializer();
+                if (usuario != null)
+                {
+                    var retornoAnon = new 
+                    {
+                        uid = usuario.IdUsuario,
+                        nome = usuario.Nome,
+                        email = usuario.Email,
+
+                    };
+                    Context.Response.Write(serializer.Serialize(retornoAnon));
+                }
+                else
+                    throw new Exception("Erro na autenticacao");
+  
             };
         }
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public int Criar(string nome, string email, string senha)
+        public void Criar(string nome, string email, string senha)
         {
+            Context.Response.Clear();
             using (var context = new Context())
             {
                 var usuario = context.DbUsuarios.Where(u => u.Email.Equals(email)).FirstOrDefault();
@@ -66,14 +92,14 @@ namespace Quiztomizador.WebService.Services
                     };
                     context.Set<Usuario>().Add(usuarioNew);
                     context.SaveChanges();
-
-                    return usuarioNew.IdUsuario;
+                    Context.Response.Write(usuarioNew.IdUsuario);
                 }
-                else 
+                else
                 {
-                    throw new Exception("Usuario já existe.");   
+                    throw new Exception("Email ja cadastrado!");
                 }
             };
+
         }
     }
 }
