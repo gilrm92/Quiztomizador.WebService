@@ -1,0 +1,3 @@
+
+ALTER TABLE Alternativa
+ADD Excluido BIT NOT NULL DEFAULT(0)
