@@ -2,6 +2,7 @@
 using Quiztomizador.WebService.Model.Entidades;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -16,9 +17,9 @@ namespace Quiztomizador.WebService.Services
     /// </summary>
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [System.ComponentModel.ToolboxItem(false)]
+    [ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-    [System.Web.Script.Services.ScriptService]
+    [ScriptService]
     public class Alternativas : System.Web.Services.WebService
     {
 

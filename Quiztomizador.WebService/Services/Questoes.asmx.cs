@@ -1,4 +1,5 @@
 ﻿using Quiztomizador.WebService.ContextConfiguration;
+using Quiztomizador.WebService.Model.Entidades;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,18 +16,26 @@ namespace Quiztomizador.WebService.Services
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ToolboxItem(false)]
-    // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
     [ScriptService]
     public class Questoes : System.Web.Services.WebService
     {
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public object Criar(string titulo, int[] alternativas)
+        public object Criar(string titulo, int tipoQuestao, int idQuestionario)
         {
             using (var context = new Context()) 
-            { 
-                
+            {
+                var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario)).FirstOrDefault();
+                var tipoQuestaoEnum = (TipoQuestao)tipoQuestao;
+
+                var questao = new Questao
+                {
+                    Titulo = titulo,
+                    TipoQuestao = tipoQuestaoEnum,
+                    Questionario = questionario,
+                    IdQuestionario = idQuestionario
+                };
             }
             return "";
         }
