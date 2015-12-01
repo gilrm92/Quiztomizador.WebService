@@ -13,6 +13,7 @@ namespace Quiztomizador.WebService.Model.Entidades
         public Questionario Questionario { get; set; }
         public TipoQuestao TipoQuestao { get; set; }
         public IList<Alternativa> Alternativas { get; set; }
-        
+        public bool Excluido { get; set; }
+
     }
 }
