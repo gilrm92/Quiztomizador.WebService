@@ -34,7 +34,7 @@ namespace Quiztomizador.WebService.Services
                 var questao = new Questao
                 {
                     Titulo = titulo,
-                    TipoQuestao = tipoQuestaoEnum,
+                    Tipo = tipoQuestaoEnum,
                     Questionario = questionario,
                     IdQuestionario = idQuestionario
                 };
@@ -46,7 +46,7 @@ namespace Quiztomizador.WebService.Services
                 {
                     uid = questao.IdQuestao,
                     titulo =  questao.Titulo,
-                    tipoQuestao = questao.TipoQuestao.ToString()
+                    tipo = questao.Tipo.ToString()
                 };
 
                 var serializer = new JavaScriptSerializer();
@@ -64,7 +64,7 @@ namespace Quiztomizador.WebService.Services
                 var questao = context.DbQuestoes.Where(q => q.IdQuestao.Equals(idQuestao)).FirstOrDefault();
                 var tipoQuestaoEnum = (TipoQuestao)tipoQuestao;
 
-                questao.TipoQuestao = tipoQuestaoEnum;
+                questao.Tipo = tipoQuestaoEnum;
                 questao.Titulo = titulo;
 
                 context.Set<Questao>().Attach(questao);
@@ -102,8 +102,8 @@ namespace Quiztomizador.WebService.Services
                 {
                     uid = questao.IdQuestao,
                     titulo = questao.Titulo,
-                    tipoQuesta = questao.TipoQuestao,
-                    alternativas = alternativas.Select(a => new { uid = a.IdAlternativa, titulo = a.Titulo, correta = a.AlternativaCorreta })
+                    tipo = questao.Tipo,
+                    alternativas = alternativas.Select(a => new { uid = a.IdAlternativa, titulo = a.Descricao, correta = a.Certa })
                 };
 
                 var serializer = new JavaScriptSerializer();

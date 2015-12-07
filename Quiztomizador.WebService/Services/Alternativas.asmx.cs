@@ -25,7 +25,7 @@ namespace Quiztomizador.WebService.Services
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public string Criar(int idQuestao, string titulo, bool correta)
+        public string Criar(int idQuestao, string titulo, bool certa)
         {
             using (var context = new Context()) 
             {
@@ -33,10 +33,10 @@ namespace Quiztomizador.WebService.Services
 
                 var alternativa = new Alternativa
                 {
-                    Titulo = titulo,
+                    Descricao = titulo,
                     IdQuestao = idQuestao,
                     Questao = questao,
-                    AlternativaCorreta = correta
+                    Certa = certa
                 };
 
                 context.Set<Alternativa>().Add(alternativa);
@@ -45,8 +45,8 @@ namespace Quiztomizador.WebService.Services
                 var anonObj = new
                 {
                     uid = alternativa.IdAlternativa,
-                    titulo = alternativa.Titulo,
-                    alternativaCorreta = alternativa.AlternativaCorreta
+                    titulo = alternativa.Descricao,
+                    certa = alternativa.Certa
                 };
 
                 var serializer = new JavaScriptSerializer();
@@ -56,14 +56,14 @@ namespace Quiztomizador.WebService.Services
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Editar(int idAlternativa, string newTitulo, bool correta)
+        public void Editar(int idAlternativa, string descricao, bool certa)
         {
             using (var context = new Context())
             {
                 var alternativa = context.DbAlternativas.Where(q => q.IdAlternativa.Equals(idAlternativa)).FirstOrDefault();
                 
-                alternativa.Titulo = newTitulo;
-                alternativa.AlternativaCorreta = correta;
+                alternativa.Descricao = descricao;
+                alternativa.Certa = certa;
 
                 context.Set<Alternativa>().Attach(alternativa);
                 context.Entry(alternativa).State = EntityState.Modified;
@@ -97,8 +97,8 @@ namespace Quiztomizador.WebService.Services
                 var anonObj = alternativas.Select(alternativa => new
                 {
                     uid = alternativa.IdAlternativa,
-                    titulo = alternativa.Titulo,
-                    alternativaCorreta = alternativa.AlternativaCorreta
+                    descricao = alternativa.Descricao,
+                    certa = alternativa.Certa
                 });
 
                 var serializer = new JavaScriptSerializer();

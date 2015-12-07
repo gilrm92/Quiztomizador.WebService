@@ -23,7 +23,7 @@ namespace Quiztomizador.WebService.Services
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Retorna(int idUsuario) 
+        public void Retornar(int idUsuario) 
         {
             Context.Response.Clear();
             using (var context = new Context())

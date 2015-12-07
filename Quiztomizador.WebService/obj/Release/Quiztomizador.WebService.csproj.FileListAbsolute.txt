@@ -9,3 +9,11 @@ C:\Users\Gilberto\Documents\Visual Studio 2013\Projects\Quiztomizador.WebService
 C:\Users\Gilberto\Documents\Visual Studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\bin\Ninject.xml
 C:\Users\Gilberto\Documents\Visual Studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\obj\Release\Quiztomizador.WebService.dll
 C:\Users\Gilberto\Documents\Visual Studio 2013\Projects\Quiztomizador.WebService\Quiztomizador.WebService\obj\Release\Quiztomizador.WebService.pdb
+E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\bin\Quiztomizador.WebService.dll
+E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\bin\Quiztomizador.WebService.pdb
+E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\bin\EntityFramework.xml
+E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\bin\EntityFramework.SqlServer.xml
+E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\bin\Ninject.xml
+E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\obj\Release\Quiztomizador.WebService.csprojResolveAssemblyReference.cache
+E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\obj\Release\Quiztomizador.WebService.dll
+E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\obj\Release\Quiztomizador.WebService.pdb

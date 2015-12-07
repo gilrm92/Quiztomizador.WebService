@@ -28,17 +28,22 @@ namespace Quiztomizador.WebService.Services
             using (var context = new Context())
             {
                 Context.Response.Clear();
-                var categoria = context.DbCategorias.Where(c => c.Descricao.Equals(descricao) && c.IdUsuario == idUsuarioCriador && !c.Excluido).FirstOrDefault();
-                
+                var usuario = context.DbUsuarios.Where(u => u.IdUsuario == idUsuarioCriador).FirstOrDefault();
+                // caso não encontre o usuário no banco não inclui a categoria
+                if (usuario == null)
+                {
+                    throw new Exception("Usuario nao cadastrado!");
+                }
+                var categoria = context.DbCategorias.Where(c => c.Descricao.Equals(descricao) && c.IdUsuarioCriador == idUsuarioCriador && !c.Excluido).FirstOrDefault();
+               
                 if (categoria == null)
                 {
                     var categoriaNew = new Categoria
                     {
                         Descricao = descricao,
-                        Usuario = context.DbUsuarios.Where(u => u.IdUsuario == idUsuarioCriador).FirstOrDefault(),
-                        IdUsuario = idUsuarioCriador
+                        IdUsuarioCriador = idUsuarioCriador
+                   ///     UsuarioCriador  = usuario                      
                     };
-
                     context.Set<Categoria>().Add(categoriaNew);
                     context.SaveChanges();
 
@@ -46,7 +51,7 @@ namespace Quiztomizador.WebService.Services
                     {
                         uid = categoriaNew.IdCategoria,
                         descricao = categoriaNew.Descricao,
-                        criador = categoriaNew.IdUsuario
+                        criador = categoriaNew.IdUsuarioCriador
                     };
 
                     var serializer = new JavaScriptSerializer();
@@ -105,23 +110,45 @@ namespace Quiztomizador.WebService.Services
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Retorna(int idUsuario)
+        public void Retornar(int idCategoria)
         {
             Context.Response.Clear();
             using (var context = new Context())
             {
-                var categoria = context.DbCategorias.Where(c => c.IdUsuario.Equals(idUsuario) && !c.Excluido).ToList();
+                var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(idCategoria)).ToList();
+
+                var anonObj = categoria.Select(c => new
+                {
+                    uid = c.IdCategoria,
+                    descricao = c.Descricao,
+                    criador = c.IdUsuarioCriador
+                });
+
+                var serializer = new JavaScriptSerializer();
+                Context.Response.Write(serializer.Serialize(anonObj));
+            };
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void RetornarPorUsuario(int idUsuario)
+        {
+            Context.Response.Clear();
+            using (var context = new Context())
+            {
+                var categoria = context.DbCategorias.Where(c => c.IdUsuarioCriador.Equals(idUsuario) && !c.Excluido).ToList();
                
                 var anonObj = categoria.Select(c => new
                     {
                         uid = c.IdCategoria,
                         descricao = c.Descricao,
-                        criador = c.IdUsuario
+                        criador = c.IdUsuarioCriador
                     });
 
                 var serializer = new JavaScriptSerializer();
                 Context.Response.Write(serializer.Serialize(anonObj));
             };
         }
+
     }
 }

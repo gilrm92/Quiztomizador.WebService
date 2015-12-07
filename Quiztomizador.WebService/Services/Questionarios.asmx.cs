@@ -25,25 +25,26 @@ namespace Quiztomizador.WebService.Services
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Criar(string descricao, int idCategoria, int idUsuarioCadastrou)
+        public void Criar(string descricao, int idCategoria, int idUsuarioCriador)
         {
             Context.Response.Clear();
             using (var context = new Context())
             {
                 var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(idCategoria)).FirstOrDefault();
-                var usuario = context.DbUsuarios.Where(c => c.IdUsuario.Equals(idUsuarioCadastrou)).FirstOrDefault();
+                var usuario = context.DbUsuarios.Where(c => c.IdUsuario == idUsuarioCriador).FirstOrDefault();               
 
-                var questionario = new Questionario
+                var questionario  = new Questionario
                 {
                     Descricao = descricao,
                     IdCategoria = idCategoria,
                     Categoria = categoria,
-                    IdUsuarioCriador = idUsuarioCadastrou,
-                    UsuarioCriador = usuario
+                    IdUsuarioCriador = idUsuarioCriador,
+                   // UsuarioCriador = usuario
                 };
 
-                context.Set<Questionario>().Add(questionario);
+                context.Set<Questionario>().Add(questionario);                
                 context.SaveChanges();
+               
 
                 var retornoAnon = new
                 {
@@ -86,18 +87,31 @@ namespace Quiztomizador.WebService.Services
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Excluir(int idQuestionario)
+        public void Excluir(int idQuestionario, int idUsuario)
         {
             using (var context = new Context())
             {
-                var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario)).FirstOrDefault();
+                var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario)).FirstOrDefault();               
+                var usuario = context.DbUsuarios.Where(u => u.IdUsuario.Equals(idUsuario)).First();
 
                 if (questionario != null)
                 {
-                    questionario.Excluido = true;
-                    context.Set<Questionario>().Attach(questionario);
-                    context.Entry(questionario).State = EntityState.Modified;
+                    if (questionario.IdUsuarioCriador == idUsuario)
+                    {
+                        questionario.Excluido = true;
+                        context.Set<Questionario>().Attach(questionario);
+                        context.Entry(questionario).State = EntityState.Modified;                    
+                    }
+                    else
+                    {
+
+                        // TODO remover da tabela de relacionamento 
+                        questionario.Usuarios.Remove(usuario);       
+                        context.DbQuestionarios.Attach(questionario);
+                    }                                       
                     context.SaveChanges();
+                    var serializer = new JavaScriptSerializer();
+                    Context.Response.Write(serializer.Serialize(questionario));
                 }
                 else
                 {
@@ -116,17 +130,23 @@ namespace Quiztomizador.WebService.Services
             {
                 var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario) && !q.Excluido).FirstOrDefault();
                 var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(questionario.IdQuestionario)).FirstOrDefault();
-                var questoes = context.DbQuestoes.Where(q => q.IdQuestionario.Equals(questionario.IdQuestionario) && !q.Excluido).ToList();
+               // var questoes = context.DbQuestoes.Where(q => q.IdQuestionario.Equals(questionario.IdQuestionario) && !q.Excluido).ToList();
                 
-                questionario.Questoes = questoes;
+               // questionario.Questoes = questoes;
                 questionario.Categoria = categoria;
 
                 var anonObj = new
                 {
                     uid = questionario.IdQuestionario,
                     descricao = questionario.Descricao,
-                    categoria = new { uid = questionario.Categoria.IdCategoria, descricao = questionario.Categoria.Descricao },
-                    questoes = questionario.Questoes.Select(q => new { uid = q.IdQuestao, titulo = q.Titulo, tipoQuestao = q.TipoQuestao.ToString() })
+                   /////// criador = new { uid = questionario.IdUsuarioCriador, nome = questionario.UsuarioCriador.Nome, email = questionario.UsuarioCriador.Email },
+                    categoria = new
+                    {
+                        uid = questionario.Categoria.IdCategoria,
+                        descricao = questionario.Categoria.Descricao,
+                      //////  criador = new { uid = questionario.Categoria.IdUsuarioCriador, nome = questionario.Categoria.UsuarioCriador.Nome, email = questionario.Categoria.UsuarioCriador.Email }
+                    }
+                    //questoes = questionario.Questoes.Select(q => new { uid = q.IdQuestao, titulo = q.Titulo, tipo = q.Tipo.ToString() })
                 };
 
                 var serializer = new JavaScriptSerializer();
@@ -141,7 +161,8 @@ namespace Quiztomizador.WebService.Services
             Context.Response.Clear();
             using (var context = new Context())
             {
-                var questionarios = context.DbQuestionarios.Where(q => q.UsuarioCriador.Equals(idUsuario) && !q.Excluido).ToList();
+
+                var questionarios = context.DbQuestionarios.Where(q => q.IdUsuarioCriador.Equals(idUsuario) && !q.Excluido).ToList();
                
                 foreach (var questionario in questionarios) 
                 {
@@ -165,15 +186,112 @@ namespace Quiztomizador.WebService.Services
                                                                                     {
                                                                                         uid = q.IdQuestao,
                                                                                         titulo = q.Titulo,
-                                                                                        tipoQuestao = q.TipoQuestao.ToString()
+                                                                                        tipo = q.Tipo.ToString()
                                                                                     })
                                             });
 
                 var serializer = new JavaScriptSerializer();
-                Context.Response.Write(serializer.Serialize(anonObj));
-       
-
+                Context.Response.Write(serializer.Serialize(anonObj));      
             }
         }
+
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void Baixar(int idQuestionario, int idUsuario)
+        {
+            Context.Response.Clear();
+            using (var context = new Context())
+            {                
+                
+                var usuario = context.DbUsuarios.Where(c => c.IdUsuario == idUsuario).FirstOrDefault();
+                var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario)
+                    && !q.IdUsuarioCriador.Equals(idUsuario) && q.Publico == true).FirstOrDefault();
+               
+                if (questionario != null && usuario != null)
+                {
+                    // adiciona nas tabelas associativas questionario_usuario e categoria_usuario
+                    var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(questionario.IdCategoria)).FirstOrDefault();
+                    questionario.Usuarios.Add(usuario);
+                    categoria.Usuarios.Add(usuario);
+                    context.Set<Questionario>().Attach(questionario);
+                    context.Set<Categoria>().Attach(categoria);
+                    context.Entry(questionario).State = EntityState.Modified;
+                    context.Entry(categoria).State = EntityState.Modified;
+                    context.SaveChanges();                 
+
+                    var retornoAnon = new
+                    {
+                        uid = questionario.IdQuestionario,
+                        descricao = questionario.Descricao,
+                        categoria = questionario.IdCategoria,
+                        criador = questionario.IdUsuarioCriador
+
+                    };
+
+                    var serializer = new JavaScriptSerializer();
+                    Context.Response.Write(serializer.Serialize(retornoAnon));
+                }
+                else
+                {
+                    throw new Exception("Não foi possivel baixar o questionario");
+                }
+            }
+        }
+
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void Compartilhar(int idQuestionario, bool publico)
+        {
+            
+            using (var context = new Context())
+            {
+                var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario)).FirstOrDefault();
+                if (questionario != null)
+                {
+                    questionario.Publico = publico;
+
+                    context.Set<Questionario>().Attach(questionario);
+                    context.Entry(questionario).State = EntityState.Modified;
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Questionário não existe.");
+                }
+            }
+
+        }
+
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void RetornarCompartilhados()
+        {
+            Context.Response.Clear();
+            using (var context = new Context())
+            {
+                var questionarios = context.DbQuestionarios.Where(q => q.Publico == true).ToList();
+               
+               /* var anonObj = questionarios.Select(q => new 
+                {
+                    uid = q.IdQuestionario,
+                    descricao = q.Descricao,
+                    criador = q.IdUsuarioCriador,
+                    categoria = new
+                    {
+                        uid = q.Categoria.IdCategoria,
+                        descricao = q.Categoria.Descricao,
+                        criador = q.Categoria.IdUsuarioCriador
+                        //////  criador = new { uid = questionario.Categoria.IdUsuarioCriador, nome = questionario.Categoria.UsuarioCriador.Nome, email = questionario.Categoria.UsuarioCriador.Email }
+                    }
+                });
+                */
+                var serializer = new JavaScriptSerializer();
+                Context.Response.Write(serializer.Serialize(questionarios));              
+            }
+        }
+
     }
 }

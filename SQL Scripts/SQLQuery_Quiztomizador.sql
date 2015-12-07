@@ -9,53 +9,51 @@
 CREATE TABLE Questionario
 (
 	IdQuestionario INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+	IdUsuarioCriador INT NOT NULL,
 	IdCategoria INT,
 	Descricao VARCHAR(500),
-	IdUsuarioCriador INT NOT NULL,
-	Excluido BIT DEFAULT(0) NOT NULL
+	Excluido BIT DEFAULT(0) NOT NULL,
+	Publico BIT  DEFAULT(0) NOT NULL
 )
 
 
 CREATE TABLE Categoria
 (
 	IdCategoria INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-	IdUsuario INT NOT NULL,
-	Descricao VARCHAR(100)
+	IdUsuarioCriador INT NOT NULL,
+	Descricao VARCHAR(100),
+	Excluido BIT DEFAULT(0) NOT NULL
 )
 
 CREATE TABLE Categoria_Usuario
 (
 	IdUsuario INT NOT NULL,
 	IdCategoria INT NOT NULL
+	CONSTRAINT PK_Categoria_Usuario PRIMARY KEY (IdUsuario, IdCategoria)
 )
 
 CREATE TABLE Questao
 (
 	IdQuestao INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
 	IdQuestionario INT NOT NULL,
-	IdTipoQuestao INT NOT NULL,
+	Tipo INT NOT NULL,
 	Titulo VARCHAR(200),
-	Excluido BIT NOT NULL DEFAULT(0)
-)
-
-CREATE TABLE TipoQuestao
-(
-	IdTipoQuestao INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-	TipoQuestao VARCHAR(50)
+	Excluido BIT DEFAULT(0) NOT NULL
 )
 
 CREATE TABLE Alternativa
 (
 	IdAlternativa INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
 	IdQuestao INT,
-	Alternativa VARCHAR(100),
-	AlternativaCorreta BIT
+	Descricao VARCHAR(100),
+	Certa BIT DEFAULT(0) NOT NULL
 )
 
 CREATE TABLE Questionario_Usuario
 (
 	IdUsuario INT NOT NULL,
 	IdQuestionario INT NOT NULL
+	CONSTRAINT PK_Questionario_Usuario PRIMARY KEY (IdUsuario, IdQuestionario)
 )
 
 CREATE TABLE Questionario_Grupo
@@ -118,7 +116,7 @@ PRIMARY KEY (IdQuestionario, IdGrupo)
 ALTER TABLE Questionario_Usuario
 ADD CONSTRAINT FK_Questionario_Usuario_Usuario
 FOREIGN KEY (IdUsuario)
-REFERENCES Usuarios(IdUsuario)
+REFERENCES Usuario(IdUsuario)
 ON DELETE CASCADE
 
 ALTER TABLE Questionario_Usuario
@@ -140,7 +138,7 @@ ON DELETE CASCADE
 ALTER TABLE Questionario
 ADD CONSTRAINT FK_Usuario_Questionario
 FOREIGN KEY (IdUsuarioCriador)
-REFERENCES Usuarios(IdUsuario)
+REFERENCES Usuario(IdUsuario)
 
 
 ALTER TABLE Questao
@@ -164,15 +162,9 @@ PRIMARY KEY(IdCategoria, IdUsuario)
 ALTER TABLE Categoria_Usuario
 ADD CONSTRAINT FK_Usuarios_Categoria_Usuario
 FOREIGN KEY (IdUsuario)
-REFERENCES Usuarios(IdUsuario)
+REFERENCES Usuario(IdUsuario)
 
 ALTER TABLE Categoria_Usuario
 ADD CONSTRAINT FK_Categoria_Categoria_Usuario
 FOREIGN KEY (IdCategoria)
 REFERENCES Categoria(IdCategoria)
-
-
-ALTER TABLE Questao
-ADD CONSTRAINT FK_Questao_TipoQuestao
-FOREIGN KEY (IdTipoQuestao)
-REFERENCES TipoQuestao(IdTipoQuestao)

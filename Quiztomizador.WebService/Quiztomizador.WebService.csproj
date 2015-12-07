@@ -126,13 +126,16 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="bin\Quiztomizador.WebService.dll.config" />
-    <None Include="Properties\PublishProfiles\Bla.pubxml" />
+    <None Include="Properties\PublishProfiles\WSQuiztomizador.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -145,7 +148,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2725</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
