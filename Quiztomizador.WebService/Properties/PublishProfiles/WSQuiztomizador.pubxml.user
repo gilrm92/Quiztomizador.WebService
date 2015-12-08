@@ -11,40 +11,40 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>12/01/2015 09:56:48</publishTime>
+      <publishTime>01/12/2015 09:56:48</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
-      <publishTime>12/01/2015 09:56:47</publishTime>
+      <publishTime>01/12/2015 09:56:47</publishTime>
     </File>
     <File Include="bin/Ninject.dll">
-      <publishTime>12/01/2015 09:56:48</publishTime>
+      <publishTime>01/12/2015 09:56:48</publishTime>
     </File>
     <File Include="bin/Quiztomizador.WebService.dll">
-      <publishTime>12/05/2015 18:04:19</publishTime>
+      <publishTime>12/08/2015 14:39:26</publishTime>
     </File>
     <File Include="bin/Quiztomizador.WebService.dll.config">
-      <publishTime>12/01/2015 09:56:48</publishTime>
+      <publishTime>01/12/2015 09:56:48</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>12/01/2015 09:56:48</publishTime>
+      <publishTime>01/12/2015 09:56:48</publishTime>
     </File>
     <File Include="Services/Alternativas.asmx">
-      <publishTime>12/01/2015 10:40:06</publishTime>
+      <publishTime>01/12/2015 10:40:06</publishTime>
     </File>
     <File Include="Services/Categorias.asmx">
-      <publishTime>12/01/2015 09:56:47</publishTime>
+      <publishTime>01/12/2015 09:56:47</publishTime>
     </File>
     <File Include="Services/Questionarios.asmx">
-      <publishTime>12/01/2015 09:56:47</publishTime>
+      <publishTime>01/12/2015 09:56:47</publishTime>
     </File>
     <File Include="Services/Questoes.asmx">
-      <publishTime>12/01/2015 09:56:47</publishTime>
+      <publishTime>01/12/2015 09:56:47</publishTime>
     </File>
     <File Include="Services/Usuarios.asmx">
-      <publishTime>12/01/2015 09:56:47</publishTime>
+      <publishTime>01/12/2015 09:56:47</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/05/2015 18:04:19</publishTime>
+      <publishTime>12/08/2015 14:40:39</publishTime>
     </File>
   </ItemGroup>
 </Project>
