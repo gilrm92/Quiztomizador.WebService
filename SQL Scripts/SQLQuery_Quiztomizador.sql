@@ -25,12 +25,6 @@ CREATE TABLE Categoria
 	Excluido BIT DEFAULT(0) NOT NULL
 )
 
-CREATE TABLE Categoria_Usuario
-(
-	IdUsuario INT NOT NULL,
-	IdCategoria INT NOT NULL
-	CONSTRAINT PK_Categoria_Usuario PRIMARY KEY (IdUsuario, IdCategoria)
-)
 
 CREATE TABLE Questao
 (
@@ -155,16 +149,3 @@ REFERENCES Questao(IdQuestao)
 ON DELETE CASCADE
 
 
-ALTER TABLE Categoria_Usuario
-ADD CONSTRAINT PK_Categoria_Usuario
-PRIMARY KEY(IdCategoria, IdUsuario)
-
-ALTER TABLE Categoria_Usuario
-ADD CONSTRAINT FK_Usuarios_Categoria_Usuario
-FOREIGN KEY (IdUsuario)
-REFERENCES Usuario(IdUsuario)
-
-ALTER TABLE Categoria_Usuario
-ADD CONSTRAINT FK_Categoria_Categoria_Usuario
-FOREIGN KEY (IdCategoria)
-REFERENCES Categoria(IdCategoria)

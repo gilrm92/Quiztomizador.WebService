@@ -24,9 +24,9 @@ namespace Quiztomizador.WebService.Model.Entidades
         public int IdCategoria { get; set; }
         public Categoria Categoria { get; set; }
         public int IdUsuarioCriador { get; set; }
-       // public Usuario UsuarioCriador { get; set; }
+        //public virtual Usuario UsuarioCriador { get; set; }
         public IList<Questao> Questoes { get; set; }
-        public ICollection<Usuario> Usuarios { get; set; }
+        public virtual ICollection<Usuario> Usuarios { get; set; }
         
     }
 }

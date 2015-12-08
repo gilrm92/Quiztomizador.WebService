@@ -89,6 +89,7 @@
     <Compile Include="ContextConfiguration\Context.cs" />
     <Compile Include="Model\Entidades\Alternativa.cs" />
     <Compile Include="Model\Entidades\Categoria.cs" />
+    <Compile Include="Model\Entidades\Teste.cs" />
     <Compile Include="Model\Entidades\Grupo.cs" />
     <Compile Include="Model\Entidades\Questao.cs" />
     <Compile Include="Model\Entidades\Questionario.cs" />

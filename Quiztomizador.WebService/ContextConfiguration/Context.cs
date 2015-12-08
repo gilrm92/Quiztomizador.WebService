@@ -28,16 +28,7 @@ namespace Quiztomizador.WebService.ContextConfiguration
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Entity<Usuario>().HasKey(u => u.IdUsuario);
-            modelBuilder.Entity<Usuario>().Property(u => u.IdUsuario).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<Usuario>()
-                  .HasMany(c => c.Categorias)
-                  .WithMany(u => u.Usuarios)
-                  .Map(x =>
-                  {
-                      x.MapRightKey("IdCategoria");
-                      x.MapLeftKey("IdUsuario");
-                      x.ToTable("Categoria_Usuario");                      
-                  });
+            modelBuilder.Entity<Usuario>().Property(u => u.IdUsuario).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);            
             modelBuilder.Entity<Usuario>()
                  .HasMany(q => q.Questionarios)
                  .WithMany(u => u.Usuarios)
@@ -48,8 +39,8 @@ namespace Quiztomizador.WebService.ContextConfiguration
                      x.ToTable("Questionario_Usuario");
                  });
 
-           // modelBuilder.Entity<Usuario>().HasMany<Categoria>(s => s.Categorias).WithRequired(s => s.UsuarioCriador).HasForeignKey(s => s.IdUsuarioCriador);
-           // modelBuilder.Entity<Usuario>().HasMany<Questionario>(s => s.Questionarios).WithRequired(s => s.UsuarioCriador).HasForeignKey(s => s.IdUsuarioCriador);
+            modelBuilder.Entity<Usuario>().HasMany<Categoria>(s => s.Categorias).WithRequired(s => s.UsuarioCriador).HasForeignKey(s => s.IdUsuarioCriador);        
+            // modelBuilder.Entity<Usuario>().HasMany<Questionario>(s => s.Questionarios).WithRequired(s => s.UsuarioCriador).HasForeignKey(s => s.IdUsuarioCriador);
 
 
             modelBuilder.Entity<Categoria>().HasKey(c => c.IdCategoria);

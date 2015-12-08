@@ -96,22 +96,20 @@ namespace Quiztomizador.WebService.Services
 
                 if (questionario != null)
                 {
+                    // se o Usuário é o criador do questionario então remove da base
                     if (questionario.IdUsuarioCriador == idUsuario)
                     {
                         questionario.Excluido = true;
                         context.Set<Questionario>().Attach(questionario);
                         context.Entry(questionario).State = EntityState.Modified;                    
                     }
+                    // senão remove da tabela de relacionamento 
                     else
                     {
-
-                        // TODO remover da tabela de relacionamento 
                         questionario.Usuarios.Remove(usuario);       
-                        context.DbQuestionarios.Attach(questionario);
                     }                                       
                     context.SaveChanges();
-                    var serializer = new JavaScriptSerializer();
-                    Context.Response.Write(serializer.Serialize(questionario));
+     
                 }
                 else
                 {
@@ -129,11 +127,12 @@ namespace Quiztomizador.WebService.Services
             using (var context = new Context())
             {
                 var questionario = context.DbQuestionarios.Where(q => q.IdQuestionario.Equals(idQuestionario) && !q.Excluido).FirstOrDefault();
-                var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(questionario.IdQuestionario)).FirstOrDefault();
+                var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(questionario.IdCategoria)).FirstOrDefault();
                // var questoes = context.DbQuestoes.Where(q => q.IdQuestionario.Equals(questionario.IdQuestionario) && !q.Excluido).ToList();
                 
                // questionario.Questoes = questoes;
                 questionario.Categoria = categoria;
+        
 
                 var anonObj = new
                 {
@@ -144,7 +143,7 @@ namespace Quiztomizador.WebService.Services
                     {
                         uid = questionario.Categoria.IdCategoria,
                         descricao = questionario.Categoria.Descricao,
-                      //////  criador = new { uid = questionario.Categoria.IdUsuarioCriador, nome = questionario.Categoria.UsuarioCriador.Nome, email = questionario.Categoria.UsuarioCriador.Email }
+                        criador = new { uid = questionario.Categoria.IdUsuarioCriador, nome = questionario.Categoria.UsuarioCriador.Nome, email = questionario.Categoria.UsuarioCriador.Email }
                     }
                     //questoes = questionario.Questoes.Select(q => new { uid = q.IdQuestao, titulo = q.Titulo, tipo = q.Tipo.ToString() })
                 };
@@ -210,14 +209,10 @@ namespace Quiztomizador.WebService.Services
                
                 if (questionario != null && usuario != null)
                 {
-                    // adiciona nas tabelas associativas questionario_usuario e categoria_usuario
-                    var categoria = context.DbCategorias.Where(c => c.IdCategoria.Equals(questionario.IdCategoria)).FirstOrDefault();
+                    // adiciona nas tabelas associativas questionario_usuario 
                     questionario.Usuarios.Add(usuario);
-                    categoria.Usuarios.Add(usuario);
                     context.Set<Questionario>().Attach(questionario);
-                    context.Set<Categoria>().Attach(categoria);
                     context.Entry(questionario).State = EntityState.Modified;
-                    context.Entry(categoria).State = EntityState.Modified;
                     context.SaveChanges();                 
 
                     var retornoAnon = new

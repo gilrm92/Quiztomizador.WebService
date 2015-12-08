@@ -11,7 +11,6 @@ namespace Quiztomizador.WebService.Model.Entidades
     {
         public Usuario()
         {
-            this.Categorias = new HashSet<Categoria>();
             this.Questionarios = new HashSet<Questionario>();
         }
         
@@ -20,8 +19,8 @@ namespace Quiztomizador.WebService.Model.Entidades
         public string Email { get; set; }
         public string Senha { get; set; }
 
-        public ICollection<Categoria> Categorias { get; set; }
-        public ICollection<Questionario> Questionarios { get; set; }
+        public virtual IList<Categoria> Categorias { get; set; }
+        public virtual ICollection<Questionario> Questionarios { get; set; }
       
     }
 }

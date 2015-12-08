@@ -41,8 +41,8 @@ namespace Quiztomizador.WebService.Services
                     var categoriaNew = new Categoria
                     {
                         Descricao = descricao,
-                        IdUsuarioCriador = idUsuarioCriador
-                   ///     UsuarioCriador  = usuario                      
+                        IdUsuarioCriador = idUsuarioCriador,
+                        UsuarioCriador  = usuario                      
                     };
                     context.Set<Categoria>().Add(categoriaNew);
                     context.SaveChanges();
