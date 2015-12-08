@@ -22,6 +22,7 @@ namespace Quiztomizador.WebService.ContextConfiguration
         public DbSet<Questionario> DbQuestionarios { get; set; }
         public DbSet<Questao> DbQuestoes { get; set; }
         public DbSet<Alternativa> DbAlternativas { get; set; }
+        public DbSet<Teste> DbTestes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -39,13 +40,10 @@ namespace Quiztomizador.WebService.ContextConfiguration
                      x.ToTable("Questionario_Usuario");
                  });
 
-            modelBuilder.Entity<Usuario>().HasMany<Categoria>(s => s.Categorias).WithRequired(s => s.UsuarioCriador).HasForeignKey(s => s.IdUsuarioCriador);        
-            // modelBuilder.Entity<Usuario>().HasMany<Questionario>(s => s.Questionarios).WithRequired(s => s.UsuarioCriador).HasForeignKey(s => s.IdUsuarioCriador);
-
-
             modelBuilder.Entity<Categoria>().HasKey(c => c.IdCategoria);
             modelBuilder.Entity<Categoria>().Property(c => c.IdCategoria).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
+            modelBuilder.Entity<Usuario>().HasMany<Categoria>(s => s.Categorias).WithRequired(s => s.UsuarioCriador).HasForeignKey(s => s.IdUsuarioCriador);        
+            
             modelBuilder.Entity<Questionario>().HasKey(q => q.IdQuestionario);
             modelBuilder.Entity<Questionario>().Property(q => q.IdQuestionario).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Questionario>().HasRequired(q => q.Categoria).WithMany().HasForeignKey(c => c.IdCategoria);
@@ -59,6 +57,9 @@ namespace Quiztomizador.WebService.ContextConfiguration
             modelBuilder.Entity<Alternativa>().HasKey(q => q.IdAlternativa);
             modelBuilder.Entity<Alternativa>().Property(q => q.IdAlternativa).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
+            modelBuilder.Entity<Teste>().HasKey(t => t.IdTeste);
+            modelBuilder.Entity<Teste>().Property(t => t.IdTeste).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+           
             base.OnModelCreating(modelBuilder);
         }
     }

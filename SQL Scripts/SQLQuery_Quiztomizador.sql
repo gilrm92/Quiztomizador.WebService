@@ -43,6 +43,17 @@ CREATE TABLE Alternativa
 	Certa BIT DEFAULT(0) NOT NULL
 )
 
+CREATE TABLE Teste
+(
+	IdTeste INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
+    Descricao VARCHAR(100),     
+    Inicio DATETIME,
+    Termino DATETIME,
+    Erros INT,
+    Acertos INT,
+    IdUsuario INT
+)
+
 CREATE TABLE Questionario_Usuario
 (
 	IdUsuario INT NOT NULL,
@@ -134,6 +145,10 @@ ADD CONSTRAINT FK_Usuario_Questionario
 FOREIGN KEY (IdUsuarioCriador)
 REFERENCES Usuario(IdUsuario)
 
+ALTER TABLE Categoria
+ADD CONSTRAINT FK_Usuario_Categoria
+FOREIGN KEY (IdUsuarioCriador)
+REFERENCES Usuario(IdUsuario)
 
 ALTER TABLE Questao
 ADD CONSTRAINT FK_Questao_Questionario
@@ -141,11 +156,14 @@ FOREIGN KEY (IdQuestionario)
 REFERENCES Questionario(IdQuestionario)
 ON DELETE CASCADE
 
-
 ALTER TABLE Alternativa
 ADD CONSTRAINT FK_Alternativa_Questao
 FOREIGN KEY (IdQuestao)
 REFERENCES Questao(IdQuestao)
 ON DELETE CASCADE
 
+ALTER TABLE Teste
+ADD CONSTRAINT FK_Usuario_Teste
+FOREIGN KEY (IdUsuario)
+REFERENCES Usuario(IdUsuario)
 

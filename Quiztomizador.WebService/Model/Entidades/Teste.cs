@@ -16,6 +16,6 @@ namespace Quiztomizador.WebService.Model.Entidades
         public int Erros {get; set; }
         public int Acertos { get; set; }
         public int IdUsuario { get; set; }
-        public Usuario Usuarios { get; set; }        
+        public virtual Usuario Usuarios { get; set; }        
     }
 }

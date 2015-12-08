@@ -78,6 +78,7 @@
     <Content Include="Services\Categorias.asmx" />
     <Content Include="Services\Questionarios.asmx" />
     <Content Include="Services\Questoes.asmx" />
+    <Content Include="Services\Testes.asmx" />
     <Content Include="Services\Usuarios.asmx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -115,6 +116,10 @@
     </Compile>
     <Compile Include="Services\Questoes.asmx.cs">
       <DependentUpon>Questoes.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Services\Testes.asmx.cs">
+      <DependentUpon>Testes.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Services\Usuarios.asmx.cs">
