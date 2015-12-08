@@ -22,7 +22,7 @@ namespace Quiztomizador.WebService.Model.Entidades
         public bool Excluido { get; set; }
         public bool Publico { get; set; }
         public int IdCategoria { get; set; }
-        public Categoria Categoria { get; set; }
+        public virtual Categoria Categoria { get; set; }
         public int IdUsuarioCriador { get; set; }
         //public virtual Usuario UsuarioCriador { get; set; }
         public IList<Questao> Questoes { get; set; }

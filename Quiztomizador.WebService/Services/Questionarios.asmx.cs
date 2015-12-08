@@ -269,7 +269,7 @@ namespace Quiztomizador.WebService.Services
             {
                 var questionarios = context.DbQuestionarios.Where(q => q.Publico == true).ToList();
                
-               /* var anonObj = questionarios.Select(q => new 
+               var anonObj = questionarios.Select(q => new 
                 {
                     uid = q.IdQuestionario,
                     descricao = q.Descricao,
@@ -279,12 +279,12 @@ namespace Quiztomizador.WebService.Services
                         uid = q.Categoria.IdCategoria,
                         descricao = q.Categoria.Descricao,
                         criador = q.Categoria.IdUsuarioCriador
-                        //////  criador = new { uid = questionario.Categoria.IdUsuarioCriador, nome = questionario.Categoria.UsuarioCriador.Nome, email = questionario.Categoria.UsuarioCriador.Email }
+                        //criador = new { uid = questionario.Categoria.IdUsuarioCriador, nome = questionario.Categoria.UsuarioCriador.Nome, email = questionario.Categoria.UsuarioCriador.Email }
                     }
                 });
-                */
+                
                 var serializer = new JavaScriptSerializer();
-                Context.Response.Write(serializer.Serialize(questionarios));              
+                Context.Response.Write(serializer.Serialize(anonObj));              
             }
         }
 

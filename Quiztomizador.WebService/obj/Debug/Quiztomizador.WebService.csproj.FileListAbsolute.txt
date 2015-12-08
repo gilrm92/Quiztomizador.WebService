@@ -3,3 +3,4 @@ E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\bin\Quiztomizador.We
 E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\obj\Debug\Quiztomizador.WebService.dll
 E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\obj\Debug\Quiztomizador.WebService.pdb
 E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\bin\EntityFramework.xml
+E:\GITHUB\Quiztomizador.WebService\Quiztomizador.WebService\obj\Debug\Quiztomizador.WebService.csprojResolveAssemblyReference.cache
