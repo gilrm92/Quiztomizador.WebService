@@ -20,7 +20,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/12/2015 09:56:48</publishTime>
     </File>
     <File Include="bin/Quiztomizador.WebService.dll">
-      <publishTime>12/08/2015 14:39:26</publishTime>
+      <publishTime>12/08/2015 16:19:10</publishTime>
     </File>
     <File Include="bin/Quiztomizador.WebService.dll.config">
       <publishTime>01/12/2015 09:56:48</publishTime>
@@ -44,7 +44,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/12/2015 09:56:47</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/08/2015 14:40:39</publishTime>
+      <publishTime>12/08/2015 16:19:11</publishTime>
     </File>
   </ItemGroup>
 </Project>

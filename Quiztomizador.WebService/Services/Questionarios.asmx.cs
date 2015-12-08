@@ -288,5 +288,34 @@ namespace Quiztomizador.WebService.Services
             }
         }
 
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void RetornarBaixados(int idUsuario)
+        {
+            Context.Response.Clear();
+            using (var context = new Context())
+            {
+                var usuario = context.DbUsuarios.Find(idUsuario);
+                var questionarios = usuario.Questionarios;
+               
+                var anonObj = questionarios.Select(q => new
+                {
+                    uid = q.IdQuestionario,
+                    descricao = q.Descricao,
+                    criador = q.IdUsuarioCriador,
+                    categoria = new
+                    {
+                        uid = q.Categoria.IdCategoria,
+                        descricao = q.Categoria.Descricao,
+                        criador = q.Categoria.IdUsuarioCriador
+                        //criador = new { uid = questionario.Categoria.IdUsuarioCriador, nome = questionario.Categoria.UsuarioCriador.Nome, email = questionario.Categoria.UsuarioCriador.Email }
+                    }
+                });
+
+                var serializer = new JavaScriptSerializer();
+                Context.Response.Write(serializer.Serialize(anonObj));
+            }
+        }
+
     }
 }
